@@ -48,14 +48,34 @@ if st.button("Request Access"):
     # Scale
     input_scaled = scaler.transform(input_df)
 
-    # Predict
+    # Predict probability
     risk_prob = model.predict_proba(input_scaled)[0][1]
-    decision = "DENY" if risk_prob >= 0.65 else "ALLOW"
 
-    st.subheader("Assessment Result")
-    st.metric("Risk Probability", f"{risk_prob:.2f}")
+    # Convert to 0–100 risk score
+    risk_score = int(risk_prob * 100)
 
-    if decision == "ALLOW":
-        st.success("✅ ACCESS ALLOWED")
+    # Risk categorization
+    if risk_prob < 0.30:
+        risk_level = "LOW"
+        decision = "ALLOW"
+    elif risk_prob < 0.65:
+        risk_level = "MEDIUM"
+        decision = "ALLOW (MONITOR)"
+    elif risk_prob < 0.85:
+        risk_level = "HIGH"
+        decision = "DENY"
     else:
-        st.error("❌ ACCESS DENIED")
+        risk_level = "CRITICAL"
+        decision = "DENY"
+
+    # ---------- OUTPUT ----------
+    st.subheader("Assessment Result")
+
+    st.metric("Risk Probability", f"{risk_prob:.2f}")
+    st.metric("Risk Score", f"{risk_score}/100")
+    st.metric("Risk Level", risk_level)
+
+    if "ALLOW" in decision:
+        st.success(f"✅ ACCESS {decision}")
+    else:
+        st.error(f"❌ ACCESS {decision}")
