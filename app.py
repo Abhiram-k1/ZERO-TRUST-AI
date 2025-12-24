@@ -11,7 +11,7 @@ feature_order = joblib.load("feature_order.pkl")
 
 st.set_page_config(page_title="Zero Trust AI", layout="centered")
 
-st.title("🔐 AI-Enabled Zero Trust Access Control")
+st.title("AI-Enabled Zero Trust Access Control")
 
 st.write("Enter access request details to evaluate risk using the trained ML model.")
 
