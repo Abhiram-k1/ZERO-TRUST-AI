@@ -27,7 +27,7 @@ month = st.slider("Month", 1, 12, 6)
 if st.button("Request Access"):
 
     # --- Implicit device trust inference ---
-    if ip_risk_score > 60 or fail_count >= 3:
+    if ip_risk_score > 60 or fail_count > 3:
         device_trusted = "no"
     else:
         device_trusted = "yes"
