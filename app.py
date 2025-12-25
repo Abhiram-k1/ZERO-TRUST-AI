@@ -91,7 +91,7 @@ def compute_final_risk(
 def zero_trust_decision(score):
     if score < 30:
         return "ALLOW"
-    elif score < 60:
+    elif score < 65:
         return "ALLOW (MONITOR)"
     elif score < 80:
         return "DENY"
