@@ -18,7 +18,6 @@ st.write("Enter access request details to evaluate risk using the trained ML mod
 role = st.selectbox("Role", ["admin", "employee", "user"])
 fail_count = st.number_input("Failed Login Count", min_value=0, step=1)
 req_count = st.number_input("Request Count", min_value=0, step=1)
-ip_risk_score = st.slider("IP Risk Score", 0, 100, 25)
 hour = st.slider("Access Hour", 0, 23, 12)
 day = st.slider("Day", 1, 31, 15)
 month = st.slider("Month", 1, 12, 6)
