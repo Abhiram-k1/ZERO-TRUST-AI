@@ -38,7 +38,6 @@ if st.button("Request Access"):
 
     # Encode categorical variables
     input_df["role"] = le_role.transform(input_df["role"])
-    input_df["device_trusted"] = le_device.transform(input_df["device_trusted"])
 
     # Reorder features
     input_df = input_df[feature_order]
