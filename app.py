@@ -75,7 +75,6 @@ if st.button("Request Access"):
     st.subheader("Assessment Result")
 
     st.metric("Risk Probability", f"{risk_prob:.2f}")
-    st.metric("Risk Score", f"{risk_score}/100")
     st.metric("Risk Level", risk_level)
 
     if "ALLOW" in decision:
