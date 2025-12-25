@@ -17,7 +17,6 @@ st.write("Enter access request details to evaluate risk using the trained ML mod
 
 # ---------- INPUTS ----------
 role = st.selectbox("Role", ["admin", "employee", "user"])
-device_trusted = st.selectbox("Device Trusted", ["yes", "no"])
 fail_count = st.number_input("Failed Login Count", min_value=0, step=1)
 req_count = st.number_input("Request Count", min_value=0, step=1)
 ip_risk_score = st.slider("IP Risk Score", 0, 100, 25)
@@ -29,7 +28,6 @@ month = st.slider("Month", 1, 12, 6)
 if st.button("Request Access"):
     input_df = pd.DataFrame([{
         "role": role,
-        "device_trusted": device_trusted,
         "fail_count": fail_count,
         "req_count": req_count,
         "ip_risk_score": ip_risk_score,
