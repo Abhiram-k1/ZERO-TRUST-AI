@@ -12,7 +12,6 @@ feature_order = joblib.load("feature_order.pkl")
 st.set_page_config(page_title="Zero Trust AI", layout="centered")
 
 st.title("AI-Enabled Zero Trust Access Control")
-
 st.write("Enter access request details to evaluate risk using the trained ML model.")
 
 # ---------- INPUTS ----------
@@ -26,8 +25,16 @@ month = st.slider("Month", 1, 12, 6)
 
 # ---------- PREDICTION ----------
 if st.button("Request Access"):
+
+    # --- Implicit device trust inference ---
+    if ip_risk_score > 60 or fail_count >= 3:
+        device_trusted = "no"
+    else:
+        device_trusted = "yes"
+
     input_df = pd.DataFrame([{
         "role": role,
+        "device_trusted": device_trusted,
         "fail_count": fail_count,
         "req_count": req_count,
         "ip_risk_score": ip_risk_score,
@@ -36,22 +43,21 @@ if st.button("Request Access"):
         "month": month
     }])
 
-    # Encode categorical variables
+    # Encode categorical features
     input_df["role"] = le_role.transform(input_df["role"])
+    input_df["device_trusted"] = le_device.transform(input_df["device_trusted"])
 
-    # Reorder features
+    # Ensure correct column order
     input_df = input_df[feature_order]
 
     # Scale
     input_scaled = scaler.transform(input_df)
 
-    # Predict probability
+    # Predict
     risk_prob = model.predict_proba(input_scaled)[0][1]
-
-    # Convert to 0–100 risk score
     risk_score = int(risk_prob * 100)
 
-    # Risk categorization
+    # Risk tiers
     if risk_prob < 0.30:
         risk_level = "LOW"
         decision = "ALLOW"
